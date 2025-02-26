@@ -27,20 +27,32 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     // Successful login
                     $_SESSION['user_id'] = $user['id'];
                     $_SESSION['user_name'] = $user['name'];
-                    $_SESSION['user_role'] = $user['role']; // Store user role
+                    $_SESSION['user_role'] = $user['role'];
 
-                    // Display success message
-                    echo "<script>alert('Login successful! Welcome, " . $user['name'] . "');</script>";
+                    // JavaScript alert message
+                    $welcome_message = "Welcome, " . $user['name'] . "!";
 
                     // Redirect based on user role
                     if ($user['role'] === 'admin') {
-                        header("Location: admin.php");
+                        echo "<script>
+                                alert('$welcome_message');
+                                window.location.href = 'admin.php';
+                              </script>";
                     } else if ($user['role'] === 'user') {
-                        header("Location: user.php");
-                    }else if ($user['role'] === 'manager') {
-                            header("Location: manager.php");
-                        }else {
-                        header("Location: signup.php"); // Default redirection
+                        echo "<script>
+                                alert('$welcome_message');
+                                window.location.href = 'home.php';
+                              </script>";
+                    } else if ($user['role'] === 'manager') {
+                        echo "<script>
+                                alert('$welcome_message');
+                                window.location.href = 'manager.php';
+                              </script>";
+                    } else {
+                        echo "<script>
+                                alert('Invalid user role. Redirecting to signup.');
+                                window.location.href = 'signup.php';
+                              </script>";
                     }
                     exit();
                 } else {

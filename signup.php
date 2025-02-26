@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $message .= "Password: $password\n\n"; // If hashed, consider not displaying it for security.
                 $message .= "Please keep this email for your records.\n\nThank you,\nJewelry Luxurious Team";
 
-                $headers = "From: no-reply@jewelryluxurious.com";
+                $headers = "From: dhruvdarji1503@gmail.com";
 
                 // Send email
                 if (mail($email, $subject, $message, $headers)) {

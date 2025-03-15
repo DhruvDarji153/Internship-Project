@@ -1,83 +1,144 @@
-<?php
-include 'db.php'; // Database connection
-
-// Fetch carousel items from the database
-$sql = "SELECT * FROM carousel ORDER BY created_at DESC";
-$result = $conn->query($sql);
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jewelry Shop</title>
-    <link rel="stylesheet" href="style.css"> <!-- External CSS -->
+    <title>Home Page</title>
+    <link rel="stylesheet" href="home.css">
+
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <!-- jQuery (Required for Slick) -->
+    <script src="assets/js/jquery-1.11.0.min.js"></script>
+
 </head>
 <body>
-    
-    <!-- Navbar Section -->
-    <?php include 'navbar.php'; ?>
 
-    <!-- Dynamic Carousel Section -->
-    <div class="carousel-container">
-        <div class="carousel">
-            <?php while ($row = $result->fetch_assoc()) { ?>
-                <div class="slide">
-                    <img src="<?php echo $row['image_path'];?>" width="100%" alt="Carousel Image">
-                    <div class="carousel-content">
-                        <h1><?php echo $row['heading']; ?></h1>
-                        <p><?php echo $row['description']; ?> <span><?php echo $row['highlighted_text']; ?></span></p>
-                        <a href="<?php echo $row['button_link']; ?>" class="button"> <?php echo $row['button_text']; ?> </a>
+    <!-- Navbar -->
+    <header class="header">
+        <nav>
+            <div class="logo">
+                <a href="index.html">Jewelry <span>Luxurious</span></a>
+            </div>
+            <input type="checkbox" id="menu-toggle">
+            <label for="menu-toggle" class="menu-icon">&#9776;</label>
+            <ul class="menu">
+                <li><a href="#">Home</a></li>
+                <li class="dropdown">
+                    <a href="#">Product</a>
+                    <div class="dropdown-content">
+                        <a href="#">Gold</a>
+                        <a href="#">Diamond</a>
+                        <a href="#">Silver</a>
                     </div>
-                </div>
-            <?php } ?>
+                </li>
+                <li><a href="#">About Us</a></li>
+                <li><a href="#">Custom Jewelry</a></li>
+                <li><a href="#">Contact Us</a></li>
+                <li><a href="#">&#128722; Cart</a></li>
+                <li class="dropdown">
+                    <a href="#">Profile</a>
+                    <div class="dropdown-content">
+                        <a href="login.php">Login</a>
+                        <a href="logout.php">Logout</a>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Carousel Section -->
+    <div class="container" data-autoplay="true">
+        <div class="slide">
+            <img src="images/1.png" alt="Jewelry Banner">
         </div>
-        
-        <!-- Carousel Controls -->
-        <button class="prev" onclick="moveSlide(-1)">&#10094;</button>
-        <button class="next" onclick="moveSlide(1)">&#10095;</button>
+        <div class="slide">
+            <img src="images/3 (2).jpg" alt="Jewelry Banner">
+        </div>
+        <div class="slide">
+            <img src="images/2 (3).jpg" alt="Jewelry Banner">
+        </div>
+
+        <button class="prev" onclick="prevSlide()"><i class="fa fa-angle-left"></i></button>
+        <button class="next" onclick="nextSlide()"><i class="fa fa-angle-right"></i></button>
     </div>
+    <div class="dots_container" id="indicator"></div>
 
     <!-- New Arrivals Section -->
-    <section class="new-arrivals">
+    <div class="new-arrivals">
         <h2>New Arrivals</h2>
         <div class="product-container">
-            <!-- Dynamic Product Cards Here -->
+            <?php
+                $products = [
+                    ["image" => "images/necklace.png", "name" => "Gold Necklace", "price" => "$1200"],
+                    ["image" => "images/diamond.jpg", "name" => "Diamond Necklace", "price" => "$4500"],
+                    ["image" => "images/bracelet.jpg", "name" => "Silver Bracelet", "price" => "$850"],
+                    ["image" => "images/earrings.jpg", "name" => "Pearl Earrings", "price" => "$650"]
+                ];
+
+                foreach ($products as $product) {
+                    echo '
+                    <div class="product-card">
+                        <img src="'.$product["image"].'" alt="'.$product["name"].'">
+                        <h3>'.$product["name"].'</h3>
+                        <p class="price">'.$product["price"].'</p>
+                    </div>';
+                }
+            ?>
         </div>
-    </section>
+    </div>
 
-    <!-- JavaScript for Carousel Auto-Sliding & Controls -->
     <script>
-          document.addEventListener("DOMContentLoaded", () => {
-    let index = 0;
-    const slides = document.querySelectorAll(".slide");
+        var slides = document.getElementsByClassName("slide");
+        var dotsContainer = document.getElementById("indicator");
+        var dots = [];
+        var count = 0;
+        var interval = 3500;
+        var autoplay = document.querySelector(".container").getAttribute("data-autoplay");
 
-    function showSlides() {
-        slides.forEach(slide => slide.style.display = "none");
-        slides[index].style.display = "block";
-    }
+        window.onload = function () {
+            initializeSlider();
+            slides[0].style.opacity = "1";
+            for (var i = 0; i < slides.length; i++) {
+                var dot = document.createElement("div");
+                dot.classList.add("dots");
+                dot.setAttribute("onclick", "changeSlide(" + i + ")");
+                dotsContainer.appendChild(dot);
+                dots.push(dot);
+            }
+            dots[0].classList.add("active");
+        }
 
-    function moveSlide(step) {
-        index = (index + step + slides.length) % slides.length;
-        showSlides();
-    }
+        function initializeSlider() {
+            if (autoplay === "true") {
+                setInterval(nextSlide, interval);
+            }
+        }
 
-    function autoSlide() {
-        moveSlide(1);
-        setTimeout(autoSlide, 3000);
-    }
+        function changeSlide(index) {
+            count = index;
+            updateSlides();
+        }
 
-    showSlides();
-    setTimeout(autoSlide, 3000);
+        function nextSlide() {
+            count = (count + 1) % slides.length;
+            updateSlides();
+        }
 
+        function prevSlide() {
+            count = (count - 1 + slides.length) % slides.length;
+            updateSlides();
+        }
 
-   
-
-    document.querySelector(".prev").addEventListener("click", () => moveSlide(-1));
-    document.querySelector(".next").addEventListener("click", () => moveSlide(1));
-});
-
+        function updateSlides() {
+            for (var i = 0; i < slides.length; i++) {
+                slides[i].style.opacity = "0";
+                dots[i].classList.remove("active");
+            }
+            slides[count].style.opacity = "1";
+            dots[count].classList.add("active");
+        }
     </script>
 
 </body>

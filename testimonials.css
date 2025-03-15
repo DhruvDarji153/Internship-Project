@@ -1,0 +1,98 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 20px;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+p {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #555;
+}
+
+.testimonial-section, .manage-reviews {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.testimonial-slider {
+    display: flex;
+    overflow-x: auto;
+    gap: 15px;
+}
+
+.testimonial-item {
+    min-width: 250px;
+    background-color: #eee;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+    margin: 5px;
+}
+
+.testimonial-image {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.star-rating {
+    margin: 5px 0;
+}
+
+.star {
+    font-size: 20px;
+    color: #ffd700;
+}
+
+.review-form {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.review-form input, .review-form textarea, .review-form button {
+    margin: 5px;
+    padding: 8px;
+    width: 80%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.review-form button {
+    background-color: #28a745;
+    color: white;
+    cursor: pointer;
+}
+
+.manage-reviews table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.manage-reviews th, .manage-reviews td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+.manage-reviews a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.manage-reviews a:hover {
+    text-decoration: underline;
+}

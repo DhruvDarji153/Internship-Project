@@ -1,0 +1,10 @@
+Jewelry Luxurious
+Thank you for your order!
+
+Order ID: ORD-67d253d7836af
+Payment Type: Cash on Delivery
+Shipping Cost: ₹50.00
+Offer: 10% Discount on Orders Above ₹1000
+Discount: ₹0.00
+Total Price: ₹50.00
+
